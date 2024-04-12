@@ -1,0 +1,39 @@
+{
+  "forms": [
+    {
+      "id": "1",
+      "title": "a title",
+      "fields": [
+        { "id": "1", "name": "a field", "type": "text" },
+        { "id": "2", "name": "another field", "type": "text" }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "fields": [
+        { "id": "3", "name": "a field", "type": "text" },
+        { "id": "4", "name": "another field", "type": "text" }
+      ]
+    }
+  ],
+
+  "submissions": [
+    {
+      "id": "1",
+      "form_id": "1",
+      "fields": [
+        { "id": "1", "value": "a value" },
+        { "id": "2", "value": "another value" }
+      ]
+    },
+    {
+      "id": "2",
+      "form_id": "2",
+      "fields": [
+        { "id": "3", "value": "a value" },
+        { "id": "4", "value": "another value" }
+      ]
+    }
+  ]
+}
