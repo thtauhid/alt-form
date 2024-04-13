@@ -8,6 +8,7 @@ import AddField from "./AddField";
 import CurrentFields from "./CurrentFields";
 import { useQuery } from "@tanstack/react-query";
 import { useGetForm } from "@/hooks";
+import { BookIcon, MailsIcon } from "lucide-react";
 
 interface Props {
   params: {
@@ -32,8 +33,17 @@ export default function EditForm(props: Props) {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">{data.title}</h1>
           <div className="space-x-2">
+            <Link href={`/form/${props.params.formId}`}>
+              <Button>
+                <BookIcon className="mr-2" size={18} />
+                View Form
+              </Button>
+            </Link>
             <Link href={`/form/${props.params.formId}/responses`}>
-              <Button>View Submission</Button>
+              <Button>
+                <MailsIcon className="mr-2" size={18} />
+                Responses
+              </Button>
             </Link>
           </div>
         </div>

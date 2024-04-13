@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useGetForm, useGetFormResponses } from "@/hooks";
+import { BookIcon, PencilIcon } from "lucide-react";
 import Link from "next/link";
 
 interface Props {
@@ -30,7 +31,16 @@ export default function Responses(props: Props) {
           <h1 className="text-3xl font-bold">{formData.title}</h1>
           <div className="space-x-2">
             <Link href={`/form/${props.params.formId}/edit`}>
-              <Button>Edit Form</Button>
+              <Button>
+                <PencilIcon className="mr-2" size={18} />
+                Edit
+              </Button>
+            </Link>
+            <Link href={`/form/${props.params.formId}`}>
+              <Button>
+                <BookIcon className="mr-2" size={18} />
+                View Form
+              </Button>
             </Link>
           </div>
         </div>
