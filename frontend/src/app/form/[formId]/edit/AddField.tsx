@@ -1,5 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useAddField } from "@/hooks";
 import { useState } from "react";
 
@@ -16,14 +18,14 @@ export default function AddField(props: Props) {
   return (
     <div className="border-2 border-dashed p-4 bg-gray-100">
       <div>
-        <input
+        <Input
           type="text"
           className="w-full p-2 border"
           placeholder="Field Title"
           onChange={(e) => setFieldTitle(e.target.value)}
         />
 
-        <textarea
+        <Textarea
           className="w-full p-2 border mt-2"
           placeholder="Field Description"
           onChange={(e) => setFieldDescription(e.target.value)}
