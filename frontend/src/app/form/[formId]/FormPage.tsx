@@ -1,6 +1,5 @@
 "use client";
 
-import { FormField as FormFieldType } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,17 +11,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useSubmitResponse } from "@/hooks";
+import { FormField as FormFieldType } from "@/types";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import SuccessPage from "./SuccessPage";
 
 interface Props {
   fields: FormFieldType[];
   formId: string;
 }
-
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import SuccessPage from "./SuccessPage";
-import { useSubmitResponse } from "@/hooks";
 
 export default function FormPage(props: Props) {
   const [isSuccess, setIsSuccess] = useState(false);

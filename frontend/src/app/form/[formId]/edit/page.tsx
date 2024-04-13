@@ -1,14 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Form } from "@/types";
-import Link from "next/link";
-import React from "react";
-import AddField from "./AddField";
-import CurrentFields from "./CurrentFields";
-import { useQuery } from "@tanstack/react-query";
 import { useGetForm } from "@/hooks";
 import { BookIcon, MailsIcon } from "lucide-react";
+import Link from "next/link";
+import AddField from "./AddField";
+import CurrentFields from "./CurrentFields";
 
 interface Props {
   params: {

@@ -1,8 +1,6 @@
-import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
+import { SquareDashedBottom } from "lucide-react";
 import Link from "next/link";
-import { DiamondIcon, NotebookText, SquareDashedBottom } from "lucide-react";
 
 export default function Header() {
   return (
