@@ -48,7 +48,18 @@ export const updateForm = async (req: Request, res: Response) => {
 };
 
 export const getForms = async (req: Request, res: Response) => {
-  const forms = await db.form.findMany();
+  const forms = await db.form.findMany(
+    // include the number of responses count
+    {
+      include: {
+        FormResponse: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    }
+  );
 
   return res.json(forms);
 };

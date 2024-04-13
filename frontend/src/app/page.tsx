@@ -22,9 +22,13 @@ export default function Home() {
     return <div>Error...</div>;
   }
 
+  if (!data) {
+    return <div>No forms found</div>;
+  }
+
   return (
     <main className="">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-8">
         <Link
           href="/form/create"
           className="bg-[#574f7d] flex items-center justify-center"
@@ -33,21 +37,28 @@ export default function Home() {
           <p className="text-3xl font-bold text-white">NEW FORM</p>
         </Link>
 
-        <div className=""></div>
-        {data!.map((form) => {
+        {data.map((form) => {
           return (
-            <Card key={form.id}>
-              <CardHeader>
-                <CardTitle>{form.title}</CardTitle>
-                <CardDescription>{form.description}</CardDescription>
-              </CardHeader>
+            <Link
+              href={`/form/${form.id}`}
+              key={form.id}
+              className="hover:border-[#3c2a4d] border border-transparent"
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>{form.title}</CardTitle>
+                  <CardDescription>{form.description}</CardDescription>
+                </CardHeader>
 
-              <CardFooter className="flex justify-end">
-                <Link href={`/form/${form.id}`}>
-                  <Button>View</Button>
-                </Link>
-              </CardFooter>
-            </Card>
+                <div className="px-6 py-2 text-white bg-[#3c2a4d]">
+                  {
+                    // @ts-ignore
+                    form.FormResponse.length
+                  }{" "}
+                  Responses
+                </div>
+              </Card>
+            </Link>
           );
         })}
       </div>

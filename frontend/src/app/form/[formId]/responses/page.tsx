@@ -47,7 +47,7 @@ export default function Responses(props: Props) {
         <p>{formData.description}</p>
       </div>
 
-      <div>
+      <div className="space-y-2">
         {responseData &&
           responseData.map((response: any) => (
             <div key={response.id} className="border p-4 bg-gray-100">
