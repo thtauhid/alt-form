@@ -28,7 +28,7 @@ export default function EditForm(props: Props) {
 
   return (
     <div>
-      <div className="pb-4 mb-4 border-b-2">
+      <div className="pb-4 mb-4 border-b-2 border-b-[#3c2a4d]">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">{data.title}</h1>
           <div className="space-x-2">

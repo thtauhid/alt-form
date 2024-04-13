@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useGetForms } from "@/hooks";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -23,14 +24,16 @@ export default function Home() {
 
   return (
     <main className="">
-      <div className="flex justify-between items-center pb-4 mb-4 border-b-2">
-        <h1 className="text-3xl font-bold">Alt Form</h1>
-        <Link href="/form/create">
-          <Button>New</Button>
+      <div className="grid grid-cols-3 gap-4">
+        <Link
+          href="/form/create"
+          className="bg-[#574f7d] flex items-center justify-center"
+        >
+          <Plus size={48} className="text-white" />
+          <p className="text-3xl font-bold text-white">NEW FORM</p>
         </Link>
-      </div>
 
-      <div className="grid grid-cols-2 gap-4">
+        <div className=""></div>
         {data!.map((form) => {
           return (
             <Card key={form.id}>

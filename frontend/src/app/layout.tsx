@@ -22,7 +22,9 @@ export default function RootLayout({
       <body className="">
         <Header />
         <Providers>
-          <div className="w-1/2 mx-auto border m-8 p-8">{children}</div>
+          <div className="bg-[#e0f0ea] px-40 py-32 min-h-[100vh]">
+            {children}
+          </div>
         </Providers>
         <Toaster />
       </body>

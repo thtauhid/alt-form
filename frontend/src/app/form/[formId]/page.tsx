@@ -22,7 +22,7 @@ export default function SubmitForm(props: Props) {
 
   return (
     <div>
-      <div className="pb-4 mb-4 border-b-2">
+      <div className="pb-4 mb-4 border-b-2 border-b-[#3c2a4d]">
         <h1 className="text-3xl font-bold">{data.title}</h1>
         <p>{data.description}</p>
       </div>
