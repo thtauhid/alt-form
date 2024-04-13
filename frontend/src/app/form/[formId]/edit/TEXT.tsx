@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateField } from "@/hooks";
+import { useDeleteField, useUpdateField } from "@/hooks";
 import { FormField } from "@/types";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -15,8 +15,11 @@ interface Props {
 export default function TEXT(props: Props) {
   const [field, setField] = useState(props.field);
   const { mutate } = useUpdateField(field.formId, field.id);
-
-  const handleDelete = () => {};
+  const { mutate: deleteField } = useDeleteField(field.formId, field.id);
+  const handleDelete = () => {
+    console.log("Delete");
+    deleteField();
+  };
 
   const handleUpdate = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -30,7 +33,7 @@ export default function TEXT(props: Props) {
     <div className="border p-4 bg-gray-100">
       <div className="flex items-center">
         <Input name="title" value={field.title} onChange={handleUpdate} />
-        <Button className="ml-2" variant={"destructive"}>
+        <Button className="ml-2" variant={"destructive"} onClick={handleDelete}>
           <Trash2 className="w-6 h-6" />
         </Button>
       </div>

@@ -122,3 +122,23 @@ export function useUpdateField(formId: string, fieldId: string) {
     },
   });
 }
+
+export function useDeleteField(formId: string, fieldId: string) {
+  return useMutation({
+    mutationKey: ["delete_field"],
+    mutationFn: async () => {
+      const res = await axios.delete(`/api/forms/${formId}/fields/${fieldId}`);
+      return res.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["form", formId],
+      });
+    },
+
+    onError: (error) => {
+      console.log("Error deleting field", error);
+    },
+  });
+}
