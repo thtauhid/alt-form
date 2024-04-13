@@ -3,10 +3,14 @@ export type FieldTypes = "TEXT";
 
 export type FormField = {
   id: string;
+  formId: string;
+  createdAt: string;
+  updatedAt: string;
   title: string;
   description: string;
-  type: FieldTypes;
+  options: string[];
   required: boolean;
+  type: FieldTypes;
 };
 
 export type Form = {

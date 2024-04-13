@@ -94,3 +94,31 @@ export function useCreateForm() {
     },
   });
 }
+
+export function useUpdateField(formId: string, fieldId: string) {
+  return useMutation({
+    mutationKey: ["update_field"],
+    mutationFn: async (fields: {
+      type: string;
+      title: string;
+      description: string;
+      required: boolean;
+    }) => {
+      const res = await axios.put(
+        `/api/forms/${formId}/fields/${fieldId}`,
+        fields
+      );
+      return res.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["form", formId],
+      });
+    },
+
+    onError: (error) => {
+      console.log("Error updating field", error);
+    },
+  });
+}
