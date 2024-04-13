@@ -26,6 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
 
 interface Props {
   formId: string;
@@ -43,9 +44,6 @@ const formSchema = z.object({
 
 export default function AddField(props: Props) {
   const { mutate } = useAddField(props.formId);
-  const [fieldTitle, setFieldTitle] = useState("");
-  const [fieldDescription, setFieldDescription] = useState("");
-  const [fieldType, setFieldType] = useState("TEXT");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,7 +56,12 @@ export default function AddField(props: Props) {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values);
+    mutate(values, {
+      onSuccess: () => {
+        toast.success("Field added successfully");
+        form.reset();
+      },
+    });
   }
 
   return (
@@ -121,62 +124,6 @@ export default function AddField(props: Props) {
           </Button>
         </form>
       </Form>
-      {/* <div>
-        <Input
-          type="text"
-          className="w-full p-2 border"
-          placeholder="Field Title"
-          onChange={(e) => setFieldTitle(e.target.value)}
-        />
-
-        <Textarea
-          className="w-full p-2 border mt-2"
-          placeholder="Field Description"
-          onChange={(e) => setFieldDescription(e.target.value)}
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-2 mt-2">
-        <select
-          name="new_field"
-          id=""
-          className="w-full p-2 border"
-          onChange={(e) => setFieldType(e.target.value)}
-          defaultValue="TEXT"
-        >
-          <option value="TEXT">TEXT</option>
-          <option value="EMAIL">EMAIL</option>
-        </select>
-
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        <Button
-          className="w-full"
-          onClick={() => {
-            mutate({
-              title: fieldTitle,
-              type: fieldType,
-              description: fieldDescription,
-            });
-          }}
-        >
-          <PlusIcon className="mr-2" size={18} />
-          Add Field
-        </Button>
-      </div> */}
     </div>
   );
 }

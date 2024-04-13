@@ -40,22 +40,14 @@ export default function CreateForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values);
-
-    if (isPending) {
-      toast.info("Creating form...");
-    }
-
-    if (isSuccess) {
-      toast.success("Form created successfully");
-      form.reset();
-      router.push(`/form/${data.id}/edit`);
-    }
-
-    if (isError) {
-      toast.error("Error creating form");
-    }
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    mutate(values, {
+      onSuccess: (data) => {
+        toast.success("Form created successfully");
+        form.reset();
+        router.push(`/form/${data.id}/edit`);
+      },
+    });
   }
 
   return (

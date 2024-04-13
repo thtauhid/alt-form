@@ -7,6 +7,7 @@ import { useDeleteField, useUpdateField } from "@/hooks";
 import { FormField } from "@/types";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface Props {
   field: FormField;
@@ -17,8 +18,11 @@ export default function TEXT(props: Props) {
   const { mutate } = useUpdateField(field.formId, field.id);
   const { mutate: deleteField } = useDeleteField(field.formId, field.id);
   const handleDelete = () => {
-    console.log("Delete");
-    deleteField();
+    deleteField(void 0, {
+      onSuccess: () => {
+        toast.success("Field deleted successfully");
+      },
+    });
   };
 
   const handleUpdate = (
@@ -26,7 +30,14 @@ export default function TEXT(props: Props) {
   ) => {
     const { name, value } = e.target;
     setField((prev) => ({ ...prev, [name]: value }));
-    mutate({ ...field, [name]: value });
+    mutate(
+      { ...field, [name]: value },
+      {
+        onSuccess: () => {
+          toast.success("Field updated successfully");
+        },
+      }
+    );
   };
 
   return (
@@ -53,7 +64,14 @@ export default function TEXT(props: Props) {
             onCheckedChange={() => {
               console.log("Clicked");
               setField((prev) => ({ ...prev, required: !field.required }));
-              mutate({ ...field, required: !field.required });
+              mutate(
+                { ...field, required: !field.required },
+                {
+                  onSuccess: () => {
+                    toast.success("Field updated successfully");
+                  },
+                }
+              );
             }}
           />
           <Label htmlFor={`required-${field.id}`}>Required</Label>

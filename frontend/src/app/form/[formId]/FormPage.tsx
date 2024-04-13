@@ -33,20 +33,21 @@ export default function FormPage(props: Props) {
 
   async function onSubmit(values: Record<string, string>) {
     try {
-      console.log(values);
       const fields = Object.keys(values).map((key) => ({
         question: key,
         answer: values[key],
       }));
 
-      console.log(fields);
-
-      mutate({ response: fields });
-
-      toast.success("Form submitted successfully");
-      setIsSuccess(true);
+      mutate(
+        { response: fields },
+        {
+          onSuccess: () => {
+            toast.success("Form submitted successfully");
+            setIsSuccess(true);
+          },
+        }
+      );
     } catch (error) {
-      console.error(error);
       toast.error("Failed to submit form");
     }
   }
