@@ -74,3 +74,23 @@ export function useGetFormResponses(formId: string) {
     },
   });
 }
+
+export function useCreateForm() {
+  return useMutation({
+    mutationKey: ["create_form"],
+    mutationFn: async (form: { title: string; description: string }) => {
+      const res = await axios.post("/api/forms", form);
+      return res.data;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["forms"],
+      });
+    },
+
+    onError: (error) => {
+      console.log("Error creating form", error);
+    },
+  });
+}

@@ -25,7 +25,9 @@ export default function Home() {
     <main className="">
       <div className="flex justify-between items-center pb-4 mb-4 border-b-2">
         <h1 className="text-3xl font-bold">Alt Form</h1>
-        <Button>New</Button>
+        <Link href="/form/create">
+          <Button>New</Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
