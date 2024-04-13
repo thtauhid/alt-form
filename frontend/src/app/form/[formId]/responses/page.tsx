@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Form, FormResponse } from "@/types";
+import { useGetForm, useGetFormResponses } from "@/hooks";
 import Link from "next/link";
 
 interface Props {
@@ -8,24 +10,18 @@ interface Props {
   };
 }
 
-async function getFormData(formId: string) {
-  const res = await fetch("http://localhost:4000/forms/" + formId + "??????");
-  const data = await res.json();
+export default function Responses(props: Props) {
+  const { data: formData, isLoading } = useGetForm(props.params.formId);
+  const { data: responseData } = useGetFormResponses(props.params.formId);
 
-  return data as Form;
-}
-
-async function getResponseData(formId: string) {
-  const res = await fetch("http://localhost:4000/responses/?formId=" + formId);
-  const data = await res.json();
-
-  return data as FormResponse[];
-}
-
-export default async function Responses(props: Props) {
-  const formData = await getFormData(props.params.formId);
-  const responseData = await getResponseData(props.params.formId);
   console.log(responseData);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!formData) {
+    return <div>Form not found</div>;
+  }
 
   return (
     <div>
@@ -33,8 +29,8 @@ export default async function Responses(props: Props) {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">{formData.title}</h1>
           <div className="space-x-2">
-            <Link href={`/form/${props.params.formId}/submissions`}>
-              <Button>View Submission</Button>
+            <Link href={`/form/${props.params.formId}/edit`}>
+              <Button>Edit Form</Button>
             </Link>
           </div>
         </div>
@@ -42,19 +38,19 @@ export default async function Responses(props: Props) {
       </div>
 
       <div>
-        {responseData.map((response) => (
-          <div key={response.id} className="border p-4 bg-gray-100">
-            <h2 className="text-xl font-bold">Response {response.id}</h2>
-            <div className="space-y-4">
-              {response.fields.map((field) => (
-                <div key={field.id}>
-                  <p className="text-lg font-bold">{field.id}</p>
-                  <p>{field.value}</p>
-                </div>
-              ))}
+        {responseData &&
+          responseData.map((response: any) => (
+            <div key={response.id} className="border p-4 bg-gray-100">
+              <div className="space-y-4">
+                {response.response.map((field: any) => (
+                  <div key={field.question}>
+                    <p className="text-lg font-bold">{field.question}</p>
+                    <p>{field.answer}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

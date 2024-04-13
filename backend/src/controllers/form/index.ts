@@ -22,6 +22,9 @@ export const getForm = async (req: Request, res: Response) => {
     where: {
       id: id,
     },
+    include: {
+      fields: true,
+    },
   });
 
   return res.json(form);
@@ -44,10 +47,10 @@ export const updateForm = async (req: Request, res: Response) => {
   return res.json(form);
 };
 
-export const getForms = (req: Request, res: Response) => {
-  const forms = db.form.findMany();
+export const getForms = async (req: Request, res: Response) => {
+  const forms = await db.form.findMany();
 
-  res.json(forms);
+  return res.json(forms);
 };
 
 export const addFormField = async (req: Request, res: Response) => {

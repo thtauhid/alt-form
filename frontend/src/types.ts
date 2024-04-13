@@ -1,10 +1,10 @@
-export type FieldTypes = "text";
+export type FieldTypes = "TEXT";
 // | "email" | "number" | "date" | "textarea";
 
 export type FormField = {
   id: string;
-  name: string;
-  placeholder: string;
+  title: string;
+  description: string;
   type: FieldTypes;
   required: boolean;
 };

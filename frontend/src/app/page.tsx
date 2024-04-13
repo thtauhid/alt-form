@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,20 +7,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Form } from "@/types";
+import { useGetForms } from "@/hooks";
 import Link from "next/link";
 
-async function getData() {
-  const res = await fetch("http://localhost:4000/forms?");
-  const data = await res.json();
+export default function Home() {
+  const { data, isLoading, isError, isFetched } = useGetForms();
 
-  return data as Form[];
-}
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-export default async function Home() {
-  const data = await getData();
-
-  console.log(data);
+  if (isError) {
+    return <div>Error...</div>;
+  }
 
   return (
     <main className="">
@@ -29,7 +29,7 @@ export default async function Home() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {data.map((form) => {
+        {data!.map((form) => {
           return (
             <Card key={form.id}>
               <CardHeader>

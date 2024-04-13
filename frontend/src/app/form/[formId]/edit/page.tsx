@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/types";
@@ -5,6 +6,8 @@ import Link from "next/link";
 import React from "react";
 import AddField from "./AddField";
 import CurrentFields from "./CurrentFields";
+import { useQuery } from "@tanstack/react-query";
+import { useGetForm } from "@/hooks";
 
 interface Props {
   params: {
@@ -12,15 +15,16 @@ interface Props {
   };
 }
 
-async function getData(formId: string) {
-  const res = await fetch("http://localhost:4000/forms/" + formId + "??????");
-  const data = await res.json();
+export default function EditForm(props: Props) {
+  const { data, isLoading } = useGetForm(props.params.formId);
 
-  return data as Form;
-}
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-export default async function EditForm(props: Props) {
-  const data = await getData(props.params.formId);
+  if (!data) {
+    return <div>Form not found</div>;
+  }
 
   return (
     <div>
@@ -28,7 +32,7 @@ export default async function EditForm(props: Props) {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">{data.title}</h1>
           <div className="space-x-2">
-            <Link href={`/form/${props.params.formId}/submissions`}>
+            <Link href={`/form/${props.params.formId}/responses`}>
               <Button>View Submission</Button>
             </Link>
           </div>
@@ -38,7 +42,7 @@ export default async function EditForm(props: Props) {
 
       <div className="space-y-8">
         <CurrentFields fields={data.fields} />
-        <AddField />
+        <AddField formId={props.params.formId} />
       </div>
     </div>
   );

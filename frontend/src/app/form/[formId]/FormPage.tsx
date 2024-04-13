@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,28 +22,26 @@ interface Props {
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import SuccessPage from "./SuccessPage";
+import { useSubmitResponse } from "@/hooks";
 
 export default function FormPage(props: Props) {
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const { mutate } = useSubmitResponse(props.formId);
 
   const form = useForm();
 
   async function onSubmit(values: Record<string, string>) {
     try {
+      console.log(values);
       const fields = Object.keys(values).map((key) => ({
-        id: key,
-        value: values[key],
+        question: key,
+        answer: values[key],
       }));
 
-      const form_data = {
-        form_id: props.formId,
-        fields,
-      };
+      console.log(fields);
 
-      await fetch("http://localhost:4000/submissions/", {
-        method: "POST",
-        body: JSON.stringify(form_data),
-      });
+      mutate({ response: fields });
 
       toast.success("Form submitted successfully");
       setIsSuccess(true);
@@ -61,17 +60,18 @@ export default function FormPage(props: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {props.fields.map((field) => {
           switch (field.type) {
-            case "text":
+            case "TEXT":
               return (
                 <FormField
                   control={form.control}
                   key={field.id}
-                  name={field.id}
+                  name={field.title}
                   render={({ field: fieldx }) => (
                     <FormItem>
-                      <FormLabel>{field.name}</FormLabel>
+                      <FormLabel>{field.title}</FormLabel>
+                      <FormDescription>{field.description}</FormDescription>
                       <FormControl>
-                        <Input {...fieldx} />
+                        <Input {...fieldx} required />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

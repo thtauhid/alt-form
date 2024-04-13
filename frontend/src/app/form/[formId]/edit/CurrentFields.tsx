@@ -4,6 +4,7 @@ import { FormField } from "@/types";
 import { Trash2 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
   fields: FormField[];
@@ -14,15 +15,16 @@ export default function CurrentFields(props: Props) {
     <div className="space-y-8">
       {props.fields.map((field) => {
         switch (field.type) {
-          case "text":
+          case "TEXT":
             return (
               <div key={field.id} className="border p-4 bg-gray-100">
                 <div className="flex items-center">
-                  <Input placeholder={field.placeholder} value={field.name} />
+                  <Input value={field.title} />
                   <Button className="ml-2" variant={"destructive"}>
                     <Trash2 className="w-6 h-6" />
                   </Button>
                 </div>
+                <Textarea rows={2} className="mt-2" value={field.description} />
                 <div className="flex justify-between mt-4">
                   <p className="text-sm font-mono mt-2">
                     Field Type: {field.type}
@@ -33,7 +35,7 @@ export default function CurrentFields(props: Props) {
                       checked={field.required}
                     />
                     <Label htmlFor={`required-${field.id}`}>Required</Label>
-                  </div>{" "}
+                  </div>
                 </div>
               </div>
             );
