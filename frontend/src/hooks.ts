@@ -49,19 +49,18 @@ export function useAddField(formId: string) {
       type: string;
       description: string;
     }) => {
-      return axios.post(`/api/forms/${formId}/fields`, fields);
+      const res = await axios.post(`/api/forms/${formId}/fields`, fields);
+      return res.data;
     },
 
     onSuccess: () => {
-      // Invalidate the form data so that the new field is fetched
-      // when the form data is refetched
       queryClient.invalidateQueries({
         queryKey: ["form", formId],
       });
     },
 
-    onError: () => {
-      console.log("Error adding field");
+    onError: (error) => {
+      console.log("Error adding field", error);
     },
   });
 }
