@@ -16,14 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="">
-        <Header />
+      <body>
         <Providers>
-          <div className="bg-[#e0f0ea] px-40 py-32 min-h-[100vh]">
+          <Header />
+          <main className="bg-[#e0f0ea] px-40 py-32 min-h-[100vh]">
             {children}
-          </div>
+          </main>
+          <Toaster />
         </Providers>
-        <Toaster />
       </body>
     </html>
   );

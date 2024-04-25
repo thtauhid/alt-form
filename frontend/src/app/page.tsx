@@ -25,7 +25,7 @@ export default function Home() {
   }
 
   return (
-    <main className="">
+    <div className="">
       <div className="grid grid-cols-3 gap-8">
         <Link
           href="/form/create"
@@ -60,6 +60,6 @@ export default function Home() {
           );
         })}
       </div>
-    </main>
+    </div>
   );
 }
