@@ -34,7 +34,16 @@ const formSchema = z.object({
   description: z.string().min(2, {
     message: "Description must be at least 2 characters",
   }),
-  type: z.enum(["TEXT", "EMAIL"]),
+  type: z.enum([
+    "TEXT",
+    "TEXTAREA",
+    "RADIO",
+    "CHECKBOX",
+    "SELECT",
+    "EMAIL",
+    "NUMBER",
+    "DATE",
+  ]),
 });
 
 export default function AddField(props: Props) {
@@ -49,10 +58,10 @@ export default function AddField(props: Props) {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     mutate(values, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(data);
         toast.success("Field added successfully");
         form.reset();
       },
@@ -60,9 +69,9 @@ export default function AddField(props: Props) {
   }
 
   return (
-    <div className="border-2 border-dashed p-4 bg-gray-100">
+    <div className="border-2 border-dashed p-4 bg-[#4cc9f0]/30">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             control={form.control}
             name="title"
@@ -87,36 +96,38 @@ export default function AddField(props: Props) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="TEXT">TEXT</SelectItem>
-                      <SelectItem value="EMAIL">EMAIL</SelectItem>
-                      <SelectItem value="NUMBER">NUMBER</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">
-            <PlusIcon className="mr-2" size={18} />
-            Add Field
-          </Button>
+          <div className="flex gap-2">
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className="w-1/2">
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="TEXT">TEXT</SelectItem>
+                        <SelectItem value="EMAIL">EMAIL</SelectItem>
+                        <SelectItem value="NUMBER">NUMBER</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-1/2">
+              <PlusIcon className="mr-2" size={18} />
+              Add Field
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

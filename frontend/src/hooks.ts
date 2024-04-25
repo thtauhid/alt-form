@@ -53,7 +53,7 @@ export function useAddField(formId: string) {
       return res.data;
     },
 
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["form", formId],
       });

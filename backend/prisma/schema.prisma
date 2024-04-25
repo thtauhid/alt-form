@@ -26,6 +26,9 @@ enum FieldType {
   RADIO
   CHECKBOX
   SELECT
+  EMAIL
+  NUMBER
+  DATE
 }
 
 model FormField {

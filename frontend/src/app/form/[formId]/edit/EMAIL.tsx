@@ -13,7 +13,7 @@ interface Props {
   field: FormField;
 }
 
-export default function TEXT(props: Props) {
+export default function EMAIL(props: Props) {
   const [field, setField] = useState(props.field);
   const { mutate } = useUpdateField(field.formId, field.id);
   const { mutate: deleteField } = useDeleteField(field.formId, field.id);

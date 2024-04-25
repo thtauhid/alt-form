@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Header />
-          <main className="bg-[#e0f0ea] px-40 py-32 min-h-[100vh]">
+          <main className="bg-[#caf0f8]/60 px-40 py-32 min-h-[100vh]">
             {children}
           </main>
           <Toaster />

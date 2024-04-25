@@ -11,11 +11,17 @@ export function Providers(props: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 5 * 1000,
+            staleTime: 0,
+            refetchOnWindowFocus: false,
           },
         },
       })
   );
+
+  // return false
+  // if (typeof window === "undefined") {
+  //   return false;
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>
