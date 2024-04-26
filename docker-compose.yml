@@ -10,21 +10,21 @@ services:
       POSTGRES_DB: $PG_DB
       POSTGRES_USER: $PG_USER
       POSTGRES_PASSWORD: $PG_PASSWORD
-    ports:
-      - "5432:5432"
-    networks:
-      - alt-form-network
 
   backend:
     depends_on:
       - db
+    env_file:
+      - .env
     build: 
       context: ./backend
       dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgres://$PG_USER:$PG_PASSWORD@db/$PG_DB
+      BACKEND_PORT_INTERNAL: $BACKEND_PORT_INTERNAL
     ports:
-      - "4000:4000"
-    networks:
-      - alt-form-network
+      - "4000:$BACKEND_PORT_INTERNAL"
     volumes:
       - ./backend:/backend
       - backend-node-modules:/backend/node_modules
@@ -32,18 +32,16 @@ services:
   frontend:
     depends_on:
       - backend
+    env_file:
+      - .env
     environment:
-    - NODE_ENV=development
-    # - CHOKIDAR_USEPOLLING=true
-    # - CHOKIDAR_INTERVAL=1000
-    # - WATCHPACK_POLLING=true
+      NODE_ENV: development
+      BACKEND_URL: $BACKEND_URL
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    networks:
-      - alt-form-network
     volumes:
       - ./frontend:/frontend
       - frontend-node-modules:/frontend/node_modules
@@ -53,7 +51,3 @@ volumes:
   pg-dev-data:
   backend-node-modules:
   frontend-node-modules:
-
-networks:
-  alt-form-network:
-    driver: bridge
