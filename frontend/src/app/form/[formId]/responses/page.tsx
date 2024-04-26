@@ -50,15 +50,27 @@ export default function Responses(props: Props) {
       <div className="space-y-2">
         {responseData &&
           responseData.map((response: any) => (
-            <div key={response.id} className="border p-4 bg-gray-100">
-              <div className="space-y-4">
-                {response.response.map((field: any) => (
-                  <div key={field.question}>
-                    <p className="text-lg font-bold">{field.question}</p>
-                    <p>{field.answer}</p>
-                  </div>
-                ))}
-              </div>
+            <div
+              key={response.id}
+              className="border border-[#4cc9f0]/30 p-4 bg-[#4cc9f0]/30 rounded-md"
+            >
+              <table className="w-full table border-collapse border border-slate-500">
+                <tbody>
+                  {response.response.map((field: any) => (
+                    <tr key={field.question} className="border border-black">
+                      <td className="p-4 border-r border-slate-500 text-lg font-bold">
+                        {field.question}
+                      </td>
+                      <td className="p-4">
+                        {field.answer}
+
+                        {field.fieldType === "CHECKBOX" &&
+                          (field.answer ? "✅" : "❌")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ))}
       </div>
