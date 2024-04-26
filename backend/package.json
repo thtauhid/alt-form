@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsnd src/index.ts",
-    "dev:dummy": "pnpm json-server db.json --port 4000",
     "build": "tsc",
     "start": "node dist/index.js",
     "db:push": "prisma db push",

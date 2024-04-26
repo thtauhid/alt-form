@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - pg-dev-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: $PG_DB
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PASSWORD
+    ports:
+      - "5432:5432"
+    networks:
+      - alt-form-network
+
+  backend:
+    depends_on:
+      - db
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    networks:
+      - alt-form-network
+    volumes:
+      - ./backend:/backend
+      - backend-node-modules:/backend/node_modules
+
+  frontend:
+    depends_on:
+      - backend
+    environment:
+    - NODE_ENV=development
+    # - CHOKIDAR_USEPOLLING=true
+    # - CHOKIDAR_INTERVAL=1000
+    # - WATCHPACK_POLLING=true
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - alt-form-network
+    volumes:
+      - ./frontend:/frontend
+      - frontend-node-modules:/frontend/node_modules
+      - /frontend/.next
+
+volumes:
+  pg-dev-data:
+  backend-node-modules:
+  frontend-node-modules:
+
+networks:
+  alt-form-network:
+    driver: bridge

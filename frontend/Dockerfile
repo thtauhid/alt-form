@@ -1,0 +1,16 @@
+FROM node:lts-alpine AS base
+RUN npm install -g pnpm
+
+WORKDIR /frontend
+
+# Install dependencies
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+RUN pnpm install
+
+# Copy source code
+COPY . .
+
+# Start the server
+CMD pnpm run dev
+EXPOSE 3000
