@@ -18,32 +18,34 @@ interface Props {
 }
 export default function RADIO(props: Props) {
   return (
-    <FormField
-      control={props.form.control}
-      key={props.field.id}
-      name={props.field.title}
-      render={({ field: fieldx }) => (
-        <FormItem>
-          <FormLabel>{props.field.title}</FormLabel>
-          <FormDescription>{props.field.description}</FormDescription>
-          <FormControl>
-            <RadioGroup
-              onValueChange={fieldx.onChange}
-              required={props.field.required}
-            >
-              <div className="space-y-2">
-                {props.field.options.map((option) => (
-                  <div className="flex items-center space-x-2" key={option}>
-                    <RadioGroupItem value={option} id={option} />
-                    <Label htmlFor={option}>{option}</Label>
-                  </div>
-                ))}
-              </div>
-            </RadioGroup>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+    <div className="border rounded-md bg-[#4cc9f0]/30 border-blue-400/40 p-8">
+      <FormField
+        control={props.form.control}
+        key={props.field.id}
+        name={props.field.title}
+        render={({ field: fieldx }) => (
+          <FormItem>
+            <FormLabel>{props.field.title}</FormLabel>
+            <FormDescription>{props.field.description}</FormDescription>
+            <FormControl>
+              <RadioGroup
+                onValueChange={fieldx.onChange}
+                required={props.field.required}
+              >
+                <div className="space-y-2">
+                  {props.field.options.map((option) => (
+                    <div className="flex items-center space-x-2" key={option}>
+                      <RadioGroupItem value={option} id={option} />
+                      <Label htmlFor={option}>{option}</Label>
+                    </div>
+                  ))}
+                </div>
+              </RadioGroup>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
   );
 }
