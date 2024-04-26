@@ -1,12 +1,12 @@
 export type FieldTypes =
   | "TEXT"
-  | "TEXTAREA"
-  | "RADIO"
-  | "CHECKBOX"
-  | "SELECT"
   | "EMAIL"
   | "NUMBER"
-  | "DATE";
+  | "TEXTAREA"
+  | "DATE"
+  | "RADIO"
+  | "CHECKBOX"
+  | "SELECT";
 
 export type FormField = {
   id: string;

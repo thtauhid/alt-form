@@ -1,7 +1,7 @@
 import { FormField } from "@/types";
-import TEXT from "./TEXT";
-import NUMBER from "./NUMBER";
-import EMAIL from "./EMAIL";
+
+import COMMON_INPUT from "./COMMON_INPUT";
+import RADIO from "./RADIO";
 
 interface Props {
   fields: FormField[];
@@ -13,11 +13,19 @@ export default function CurrentFields(props: Props) {
       {props.fields.map((field) => {
         switch (field.type) {
           case "TEXT":
-            return <TEXT key={field.id} field={field} />;
+            return <COMMON_INPUT key={field.id} field={field} />;
           case "NUMBER":
-            return <NUMBER key={field.id} field={field} />;
+            return <COMMON_INPUT key={field.id} field={field} />;
           case "EMAIL":
-            return <EMAIL key={field.id} field={field} />;
+            return <COMMON_INPUT key={field.id} field={field} />;
+          case "TEXTAREA":
+            return <COMMON_INPUT key={field.id} field={field} />;
+          case "DATE":
+            return <COMMON_INPUT key={field.id} field={field} />;
+          case "RADIO":
+            return <RADIO key={field.id} field={field} />;
+          case "CHECKBOX":
+            return <COMMON_INPUT key={field.id} field={field} />;
 
           default:
             return null;

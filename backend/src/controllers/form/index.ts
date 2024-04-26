@@ -94,7 +94,7 @@ export const deleteFormField = async (req: Request, res: Response) => {
 
 export const updateFormField = async (req: Request, res: Response) => {
   const { id, fieldId } = req.params;
-  const { type, title, description, required } = req.body;
+  const { type, title, description, required, options } = req.body;
 
   const formField = await db.formField.update({
     where: {
@@ -104,6 +104,7 @@ export const updateFormField = async (req: Request, res: Response) => {
       type,
       title,
       description,
+      options,
       required,
     },
   });

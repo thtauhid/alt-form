@@ -103,6 +103,7 @@ export function useUpdateField(formId: string, fieldId: string) {
       title: string;
       description: string;
       required: boolean;
+      options: string[];
     }) => {
       const res = await axios.put(
         `/api/forms/${formId}/fields/${fieldId}`,

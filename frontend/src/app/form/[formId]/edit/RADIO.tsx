@@ -13,7 +13,7 @@ interface Props {
   field: FormField;
 }
 
-export default function EMAIL(props: Props) {
+export default function RADIO(props: Props) {
   const [field, setField] = useState(props.field);
   const { mutate } = useUpdateField(field.formId, field.id);
   const { mutate: deleteField } = useDeleteField(field.formId, field.id);
@@ -40,6 +40,22 @@ export default function EMAIL(props: Props) {
     );
   };
 
+  const handleUpdateOptions = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    const options = value.split(",").filter((v) => v.trim().length > 0);
+    setField((prev) => ({ ...prev, options: value.split(",") }));
+    mutate(
+      { ...field, [name]: options },
+      {
+        onSuccess: () => {
+          toast.success("Field updated successfully");
+        },
+      }
+    );
+  };
+
   return (
     <div className="border p-4 bg-[#4cc9f0]/30">
       <div className="flex items-center">
@@ -54,6 +70,11 @@ export default function EMAIL(props: Props) {
         className="mt-2"
         value={field.description}
         onChange={handleUpdate}
+      />
+      <Input
+        name="options"
+        value={field.options.join(",")}
+        onChange={handleUpdateOptions}
       />
       <div className="flex justify-between mt-4">
         <p className="text-sm font-mono mt-2">Field Type: {field.type}</p>

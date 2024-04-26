@@ -36,13 +36,13 @@ const formSchema = z.object({
   }),
   type: z.enum([
     "TEXT",
+    "EMAIL",
+    "NUMBER",
     "TEXTAREA",
+    "DATE",
     "RADIO",
     "CHECKBOX",
     "SELECT",
-    "EMAIL",
-    "NUMBER",
-    "DATE",
   ]),
 });
 
@@ -116,6 +116,11 @@ export default function AddField(props: Props) {
                         <SelectItem value="TEXT">TEXT</SelectItem>
                         <SelectItem value="EMAIL">EMAIL</SelectItem>
                         <SelectItem value="NUMBER">NUMBER</SelectItem>
+                        <SelectItem value="TEXTAREA">TEXTAREA</SelectItem>
+                        <SelectItem value="DATE">DATE</SelectItem>
+                        <SelectItem value="RADIO">RADIO</SelectItem>
+                        <SelectItem value="CHECKBOX">CHECKBOX</SelectItem>
+                        <SelectItem value="SELECT">SELECT</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
