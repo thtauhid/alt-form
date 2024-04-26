@@ -1,24 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { useSubmitResponse } from "@/hooks";
 import { FormField as FormFieldType } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import SuccessPage from "./SuccessPage";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import GENERAL from "./GENERAL";
+import RADIO from "./RADIO";
+import CHECKBOX from "./CHECKBOX";
 
 interface Props {
   fields: FormFieldType[];
@@ -34,10 +26,12 @@ export default function FormPage(props: Props) {
 
   async function onSubmit(values: Record<string, string>) {
     console.log(values);
+
     try {
       const fields = Object.keys(values).map((key) => ({
         question: key,
         answer: values[key],
+        fieldType: props.fields.filter((field) => field.title === key)[0].type,
       }));
 
       mutate(
@@ -64,57 +58,25 @@ export default function FormPage(props: Props) {
         {props.fields.map((field) => {
           switch (field.type) {
             case "TEXT":
-              return (
-                <FormField
-                  control={form.control}
-                  key={field.id}
-                  name={field.title}
-                  render={({ field: fieldx }) => (
-                    <FormItem>
-                      <FormLabel>{field.title}</FormLabel>
-                      <FormDescription>{field.description}</FormDescription>
-                      <FormControl>
-                        <Input {...fieldx} required={field.required} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              );
+              return <GENERAL form={form} field={field} />;
+
+            case "NUMBER":
+              return <GENERAL form={form} field={field} />;
+
+            case "EMAIL":
+              return <GENERAL form={form} field={field} />;
+
+            case "TEXTAREA":
+              return <GENERAL form={form} field={field} />;
+
+            case "DATE":
+              return <GENERAL form={form} field={field} />;
+
+            case "CHECKBOX":
+              return <CHECKBOX form={form} field={field} />;
 
             case "RADIO":
-              return (
-                <FormField
-                  control={form.control}
-                  key={field.id}
-                  name={field.title}
-                  render={({ field: fieldx }) => (
-                    <FormItem>
-                      <FormLabel>{field.title}</FormLabel>
-                      <FormDescription>{field.description}</FormDescription>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={fieldx.onChange}
-                          required={field.required}
-                        >
-                          <div className="space-y-2">
-                            {field.options.map((option) => (
-                              <div
-                                className="flex items-center space-x-2"
-                                key={option}
-                              >
-                                <RadioGroupItem value={option} id={option} />
-                                <Label htmlFor={option}>{option}</Label>
-                              </div>
-                            ))}
-                          </div>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              );
+              return <RADIO form={form} field={field} />;
 
             default:
               return null;
