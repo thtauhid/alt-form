@@ -41,7 +41,7 @@ export default function COMMON_INPUT(props: Props) {
   };
 
   return (
-    <div className="border p-4 bg-[#4cc9f0]/30">
+    <div className="border p-4 bg-[#4cc9f0]/30 border-blue-400/40 rounded-md">
       <div className="flex items-center">
         <Input name="title" value={field.title} onChange={handleUpdate} />
         <Button className="ml-2" variant={"destructive"} onClick={handleDelete}>

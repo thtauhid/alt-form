@@ -57,7 +57,7 @@ export default function RADIO(props: Props) {
   };
 
   return (
-    <div className="border p-4 bg-[#4cc9f0]/30">
+    <div className="border p-4 bg-[#4cc9f0]/30 border-blue-400/40 rounded-md">
       <div className="flex items-center">
         <Input name="title" value={field.title} onChange={handleUpdate} />
         <Button className="ml-2" variant={"destructive"} onClick={handleDelete}>
@@ -67,14 +67,16 @@ export default function RADIO(props: Props) {
       <Textarea
         name="description"
         rows={2}
-        className="mt-2"
+        className="my-2"
         value={field.description}
         onChange={handleUpdate}
       />
+      <Label>Options</Label>
       <Input
         name="options"
         value={field.options.join(",")}
         onChange={handleUpdateOptions}
+        className="mt-2"
       />
       <div className="flex justify-between mt-4">
         <p className="text-sm font-mono mt-2">Field Type: {field.type}</p>
