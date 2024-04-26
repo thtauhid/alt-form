@@ -23,7 +23,11 @@ export const getForm = async (req: Request, res: Response) => {
       id: id,
     },
     include: {
-      fields: true,
+      fields: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
     },
   });
 
@@ -48,18 +52,18 @@ export const updateForm = async (req: Request, res: Response) => {
 };
 
 export const getForms = async (req: Request, res: Response) => {
-  const forms = await db.form.findMany(
-    // include the number of responses count
-    {
-      include: {
-        FormResponse: {
-          select: {
-            id: true,
-          },
+  const forms = await db.form.findMany({
+    include: {
+      FormResponse: {
+        select: {
+          id: true,
         },
       },
-    }
-  );
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return res.json(forms);
 };
@@ -119,6 +123,9 @@ export const getFormFields = async (req: Request, res: Response) => {
     where: {
       formId: id,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 
   return res.json(formFields);
@@ -156,6 +163,9 @@ export const getFormResponses = async (req: Request, res: Response) => {
   const formResponses = await db.formResponse.findMany({
     where: {
       formId: id,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
