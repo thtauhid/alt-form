@@ -13,5 +13,5 @@ cp .env.example .env
 Use docker compose to run the project.
 
 ```bash
-docker-compose up
+sudo docker-compose up
 ```
