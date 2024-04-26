@@ -16,9 +16,5 @@ RUN pnpm install
 # Copy source code
 COPY . .
 
-# Generate database
-RUN pnpm db:generate
-
-# Start the server
-CMD pnpm run dev
+CMD ["sh", "startup.sh" ]
 EXPOSE 4000
