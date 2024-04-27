@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { generateJWT } from "../utils/auth";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 import db from "../utils/db";
 
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
-    console.log({ email, password });
+    console.log(req.body);
 
     const user = await db.user.findUnique({
       where: {
@@ -20,6 +19,8 @@ export const login = async (req: Request, res: Response) => {
     if (!user) {
       throw new Error("User does not exist");
     }
+
+    console.log({ password, dbpass: user.password });
 
     // check if password matches using bcrypt
     const isMatch = await bcrypt.compare(password, user.password);
@@ -33,7 +34,9 @@ export const login = async (req: Request, res: Response) => {
       id: user.id,
     });
 
-    return res.status(200).json({ message: "Login successful", user, token });
+    return res
+      .status(200)
+      .json({ message: "Login successful", data: { user, token } });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Unable to login", error });
@@ -43,12 +46,15 @@ export const login = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
+
+    // hash password using bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await db.user.create({
       data: {
         email,
-        password,
+        password: hashedPassword,
       },
     });
 
@@ -58,7 +64,9 @@ export const createUser = async (req: Request, res: Response) => {
       id: user.id,
     });
 
-    return res.status(201).json({ message: "User created", user, token });
+    return res
+      .status(201)
+      .json({ message: "User created", data: { user, token } });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "Unable to create user", error });
