@@ -34,7 +34,10 @@ export default function LoginPage() {
     await axios
       .post("/api/auth/token", values)
       .then((response) => {
-        console.log(response.data);
+        const data = response.data;
+
+        // save token to local storage
+        localStorage.setItem("token", data.data.token);
       })
       .catch((error) => {
         console.error(error);

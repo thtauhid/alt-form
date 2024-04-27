@@ -5,7 +5,6 @@ import { PORT } from "../src/constants";
 import formRouter from "../src/routes/formRouter";
 import authRouter from "../src/routes/authRouter";
 
-import auth from "../src/middlewares/auth";
 const app = express();
 
 app.use(express.json());
@@ -18,7 +17,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/forms", auth, formRouter);
+app.use("/forms", formRouter);
 app.use("/auth", authRouter);
 
 app.listen(PORT, () => {

@@ -8,7 +8,11 @@ export function useGetForms() {
   return useQuery<Form[]>({
     queryKey: ["forms"],
     queryFn: async () => {
-      const response = await axios.get("/api/forms");
+      const response = await axios.get("/api/forms", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       return response.data;
     },
   });
@@ -18,7 +22,11 @@ export function useGetForm(formId: string) {
   return useQuery<Form>({
     queryKey: ["form", formId],
     queryFn: async () => {
-      const response = await axios.get("/api/forms/" + formId);
+      const response = await axios.get("/api/forms/" + formId, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       return response.data;
     },
   });
@@ -28,7 +36,14 @@ export function useSubmitResponse(formId: string) {
   return useMutation({
     mutationKey: ["submit_response"],
     mutationFn: async (fields: any) => {
-      return axios.post(`/api/forms/${formId}/responses`, fields);
+      return (
+        axios.post(`/api/forms/${formId}/responses`, fields),
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
     },
 
     onSuccess: () => {
@@ -49,7 +64,11 @@ export function useAddField(formId: string) {
       type: string;
       description: string;
     }) => {
-      const res = await axios.post(`/api/forms/${formId}/fields`, fields);
+      const res = await axios.post(`/api/forms/${formId}/fields`, fields, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       return res.data;
     },
 
@@ -69,7 +88,11 @@ export function useGetFormResponses(formId: string) {
   return useQuery({
     queryKey: ["form_responses", formId],
     queryFn: async () => {
-      const response = await axios.get(`/api/forms/${formId}/responses`);
+      const response = await axios.get(`/api/forms/${formId}/responses`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       return response.data;
     },
   });
@@ -79,7 +102,11 @@ export function useCreateForm() {
   return useMutation({
     mutationKey: ["create_form"],
     mutationFn: async (form: { title: string; description: string }) => {
-      const res = await axios.post("/api/forms", form);
+      const res = await axios.post("/api/forms", form, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       return res.data;
     },
 
@@ -107,7 +134,12 @@ export function useUpdateField(formId: string, fieldId: string) {
     }) => {
       const res = await axios.put(
         `/api/forms/${formId}/fields/${fieldId}`,
-        fields
+        fields,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
       );
       return res.data;
     },
@@ -128,7 +160,11 @@ export function useDeleteField(formId: string, fieldId: string) {
   return useMutation({
     mutationKey: ["delete_field"],
     mutationFn: async () => {
-      const res = await axios.delete(`/api/forms/${formId}/fields/${fieldId}`);
+      const res = await axios.delete(`/api/forms/${formId}/fields/${fieldId}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       return res.data;
     },
 
