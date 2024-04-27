@@ -4,11 +4,13 @@ import db from "../../utils/db";
 
 export const createForm = async (req: Request, res: Response) => {
   const { title, description } = req.body;
+  const { id: createdById } = req.user;
 
   const form = await db.form.create({
     data: {
       title,
       description,
+      createdById,
     },
   });
 
