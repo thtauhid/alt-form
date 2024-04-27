@@ -1,8 +1,9 @@
+import { GROQ_API_KEY } from "@/constants";
 import { Request, Response } from "express";
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: "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",
+  apiKey: GROQ_API_KEY,
 });
 
 export const askAI = async (req: Request, res: Response) => {
