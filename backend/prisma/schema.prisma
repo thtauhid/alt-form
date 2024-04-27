@@ -18,6 +18,8 @@ model Form {
   updatedAt    DateTime       @updatedAt
   fields       FormField[]
   FormResponse FormResponse[]
+  createdBy    User           @relation(fields: [createdById], references: [id])
+  createdById  String
 }
 
 enum FieldType {
@@ -45,10 +47,33 @@ model FormField {
 }
 
 model FormResponse {
+  id            String   @id @default(cuid())
+  formId        String
+  form          Form     @relation(fields: [formId], references: [id])
+  response      Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  submittedBy   User?    @relation(fields: [submittedById], references: [id])
+  submittedById String?
+}
+
+model User {
+  id               String             @id @default(cuid())
+  email            String             @unique
+  password         String
+  isVerified       Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  UserVerification UserVerification[]
+  Form             Form[]
+  FormResponse     FormResponse[]
+}
+
+model UserVerification {
   id        String   @id @default(cuid())
-  formId    String
-  form      Form     @relation(fields: [formId], references: [id])
-  response  Json
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -3,6 +3,7 @@ import morgan from "morgan";
 import { PORT } from "../src/constants";
 
 import formRouter from "../src/routes/formRouter";
+import authRouter from "../src/routes/authRouter";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/forms", formRouter);
+app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Backend: http://localhost:${PORT}`);

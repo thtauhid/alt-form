@@ -4,11 +4,13 @@ import db from "../../utils/db";
 
 export const createForm = async (req: Request, res: Response) => {
   const { title, description } = req.body;
+  const { id: createdById } = req.user;
 
   const form = await db.form.create({
     data: {
       title,
       description,
+      createdById,
     },
   });
 
@@ -22,6 +24,7 @@ export const getForm = async (req: Request, res: Response) => {
     where: {
       id: id,
     },
+
     include: {
       fields: {
         orderBy: {
@@ -37,22 +40,40 @@ export const getForm = async (req: Request, res: Response) => {
 export const updateForm = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, description } = req.body;
+  const { id: createdById } = req.user;
 
-  const form = await db.form.update({
+  // check if user is authorized to update form
+  const form = await db.form.findUnique({
     where: {
-      id: id,
+      id,
     },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
+
+  const updatedForm = await db.form.update({
+    where: {
+      id,
+    },
+
     data: {
       title,
       description,
     },
   });
 
-  return res.json(form);
+  return res.json(updatedForm);
 };
 
 export const getForms = async (req: Request, res: Response) => {
+  const { id: createdById } = req.user;
   const forms = await db.form.findMany({
+    where: {
+      createdById,
+    },
+
     include: {
       FormResponse: {
         select: {
@@ -60,6 +81,7 @@ export const getForms = async (req: Request, res: Response) => {
         },
       },
     },
+
     orderBy: {
       createdAt: "desc",
     },
@@ -71,6 +93,18 @@ export const getForms = async (req: Request, res: Response) => {
 export const addFormField = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { type, title, description } = req.body;
+  const { id: createdById } = req.user;
+
+  // check if user is authorized to add field to form
+  const form = await db.form.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
 
   const formField = await db.formField.create({
     data: {
@@ -86,6 +120,18 @@ export const addFormField = async (req: Request, res: Response) => {
 
 export const deleteFormField = async (req: Request, res: Response) => {
   const { id, fieldId } = req.params;
+  const { id: createdById } = req.user;
+
+  // check if user is authorized to delete field from form
+  const form = await db.form.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
 
   const formField = await db.formField.delete({
     where: {
@@ -99,11 +145,25 @@ export const deleteFormField = async (req: Request, res: Response) => {
 export const updateFormField = async (req: Request, res: Response) => {
   const { id, fieldId } = req.params;
   const { type, title, description, required, options } = req.body;
+  const { id: createdById } = req.user;
+
+  // check if user is authorized to update field in form
+
+  const form = await db.form.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
 
   const formField = await db.formField.update({
     where: {
       id: fieldId,
     },
+
     data: {
       type,
       title,
@@ -133,14 +193,26 @@ export const getFormFields = async (req: Request, res: Response) => {
 
 export const deleteForm = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { id: createdById } = req.user;
 
-  const form = await db.form.delete({
+  // check if user is authorized to delete form
+  const form = await db.form.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
+
+  const deletedForm = await db.form.delete({
     where: {
       id: id,
     },
   });
 
-  return res.json(form);
+  return res.json(deletedForm);
 };
 
 export const createFormResponse = async (req: Request, res: Response) => {
@@ -159,11 +231,24 @@ export const createFormResponse = async (req: Request, res: Response) => {
 
 export const getFormResponses = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { id: createdById } = req.user;
+
+  // check if user is authorized to get responses for form
+  const form = await db.form.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
 
   const formResponses = await db.formResponse.findMany({
     where: {
       formId: id,
     },
+
     orderBy: {
       createdAt: "desc",
     },
@@ -174,6 +259,18 @@ export const getFormResponses = async (req: Request, res: Response) => {
 
 export const deleteFormResponse = async (req: Request, res: Response) => {
   const { id, responseId } = req.params;
+  const { id: createdById } = req.user;
+
+  // check if user is authorized to delete response for form
+  const form = await db.form.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!form) throw new Error("Form not found");
+
+  if (form.createdById !== createdById) throw new Error("Unauthorized");
 
   const formResponse = await db.formResponse.delete({
     where: {
