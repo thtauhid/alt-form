@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Header from "./Header";
 import "./globals.css";
 import { Providers } from "./providers";
+import AIBox from "./AIBox";
 
 export const metadata: Metadata = {
   title: "Alt Form",
@@ -23,6 +24,7 @@ export default function RootLayout({
             {children}
           </main>
           <Toaster />
+          <AIBox />
         </Providers>
       </body>
     </html>
