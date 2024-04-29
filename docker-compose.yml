@@ -23,6 +23,7 @@ services:
       NODE_ENV: development
       DATABASE_URL: postgres://$PG_USER:$PG_PASSWORD@db/$PG_DB
       BACKEND_PORT_INTERNAL: $BACKEND_PORT_INTERNAL
+      GROQ_API_KEY: $GROQ_API_KEY
     ports:
       - "4000:$BACKEND_PORT_INTERNAL"
     volumes:

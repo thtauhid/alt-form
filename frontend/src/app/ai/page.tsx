@@ -4,16 +4,24 @@ import axios from "axios";
 import { SendHorizonalIcon } from "lucide-react";
 import { useState } from "react";
 
+interface Message {
+  role: "assistant" | "user";
+  message: string;
+}
+
 export default function AskAI() {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<string[]>([
-    "Hello! I am an AI. Ask me anything!",
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      message: "Hi, I am ARIA. I am here to help you. Ask me anything.",
+    },
   ]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    setMessages((prevMessages) => [message, ...prevMessages]);
+    setMessages((prevMessages) => [{ role: "user", message }, ...prevMessages]);
     setMessage("");
 
     axios
@@ -28,11 +36,18 @@ export default function AskAI() {
       )
       .then((response) => {
         const data = response.data;
-        setMessages((prevMessages) => [data, ...prevMessages]);
+        setMessages((prevMessages) => [
+          { role: "assistant", message: data },
+          ...prevMessages,
+        ]);
       })
       .catch((error) => {
         setMessages((prevMessages) => [
-          "Sorry, I am unable to answer your question.",
+          {
+            role: "assistant",
+            message: "Sorry, I am unable to answer your question.",
+          },
+
           ...prevMessages,
         ]);
       });
@@ -54,8 +69,12 @@ export default function AskAI() {
       </form>
 
       {messages.map((message, index) => (
-        <div key={index} className="p-4 border border-gray-300 rounded-md my-4">
-          {message}
+        <div key={index} className="border border-gray-300 rounded-md my-4">
+          {message.role === "assistant" ? (
+            <p className="bg-blue-400 p-8">{message.message}</p>
+          ) : (
+            <p className="bg-gray-400 p-8">{message.message}</p>
+          )}
         </div>
       ))}
     </div>
