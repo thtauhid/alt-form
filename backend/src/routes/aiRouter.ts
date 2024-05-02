@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as ctrl from "../controllers/aiController";
+import * as ctrl from "@/controllers/aiController";
 
 const router = Router();
 

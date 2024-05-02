@@ -9,8 +9,8 @@ interface Props {
 export default function TextField(props: Props) {
   return (
     <div className="border p-4">
-      <Label>{props.data.name}</Label>
-      <Input className="" placeholder={props.data.name} />
+      <Label>{props.data.title}</Label>
+      <Input className="" placeholder={props.data.title} />
     </div>
   );
 }

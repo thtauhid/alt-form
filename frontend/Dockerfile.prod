@@ -1,0 +1,21 @@
+FROM node:lts-alpine
+
+# Install pnpm
+RUN npm install -g pnpm next
+
+WORKDIR /frontend
+
+# Copy package.json and pnpm-lock.yaml to the container
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy the rest of the application code
+COPY . .
+
+# Start the server
+CMD pnpm start
+
+# Expose port 3000
+EXPOSE 3000

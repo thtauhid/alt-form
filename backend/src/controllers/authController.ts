@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { generateJWT } from "../utils/auth";
+import { generateJWT } from "@/utils/auth";
 import bcrypt from "bcryptjs";
 
-import db from "../utils/db";
+import db from "@/utils/db";
 
 export const login = async (req: Request, res: Response) => {
   try {

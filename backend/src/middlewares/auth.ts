@@ -9,7 +9,7 @@ declare global {
 import { NextFunction, Request, Response } from "express";
 
 import jwt from "jsonwebtoken";
-import { AuthUser } from "../types";
+import { AuthUser } from "@/types";
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;

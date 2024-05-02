@@ -1,16 +1,17 @@
-FROM node:lts-alpine AS base
+FROM node:lts-alpine
+
 RUN npm install -g pnpm
 
-WORKDIR /frontend
+WORKDIR /backend
 
 # Install dependencies
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 RUN pnpm install
+RUN pnpm db:generate
 
 # Copy source code
 COPY . .
 
-# Start the server
 CMD pnpm run dev
-EXPOSE 3000
+EXPOSE 4000

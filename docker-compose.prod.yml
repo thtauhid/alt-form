@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-prod-data:/var/lib/postgresql/data
+    env_file:
+      - ./backend/.env
+    environment:
+      POSTGRES_DB: $PG_DB
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PASSWORD
+    restart: always
+
+  backend:
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://$PG_USER:$PG_PASSWORD@db/$PG_DB
+      BACKEND_PORT_INTERNAL: $BACKEND_PORT_INTERNAL
+      GROQ_API_KEY: $GROQ_API_KEY
+    ports:
+      - "4000:$BACKEND_PORT_INTERNAL"
+    volumes:
+      - ./backend:/backend
+    restart: always
+
+  frontend:
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env
+    environment:
+      NODE_ENV: production
+      BACKEND_URL: $BACKEND_URL
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
+    restart: always
+
+volumes:
+  pg-prod-data:

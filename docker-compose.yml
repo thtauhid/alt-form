@@ -19,7 +19,7 @@ services:
       - .env
     build: 
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     environment:
       NODE_ENV: development
       DATABASE_URL: postgres://$PG_USER:$PG_PASSWORD@db/$PG_DB
@@ -41,7 +41,7 @@ services:
       BACKEND_URL: $BACKEND_URL
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
