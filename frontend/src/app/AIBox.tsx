@@ -8,32 +8,27 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-type MessageRequest = {
-  role: "user";
-  content: string;
-  metaData?: any;
-};
-
-type MessageResponse = {
-  role: "assistant";
-  content: string;
-};
-
-type ToolResponse = {
-  role: "tool";
-  tool_call_id: string;
-  name: string;
-  content: string;
-  metaData?: any;
-};
-
-type Messages = (MessageRequest | MessageResponse | ToolResponse)[];
+import { useMessageStore } from "../store/messageStore";
 
 export default function AIBox() {
   const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Messages>([]);
   const [loading, setLoading] = useState(false);
+
+  const {
+    message,
+    messages,
+    updateMessage,
+    addMessage,
+    aiSessionId,
+    updateAiSessionId,
+  } = useMessageStore((state) => ({
+    message: state.message,
+    messages: state.messages,
+    updateMessage: state.updateMessage,
+    addMessage: state.addMessage,
+    aiSessionId: state.aiSessionId,
+    updateAiSessionId: state.updateAiSessionId,
+  }));
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -43,19 +38,15 @@ export default function AIBox() {
     e.preventDefault();
     setLoading(true);
 
-    const newMessages: Messages = [
-      ...messages,
-      { role: "user", content: message },
-    ];
-
-    setMessages(newMessages);
-    setMessage("");
+    addMessage({ role: "user", content: message });
+    updateMessage("");
 
     try {
       const response = await axios.post(
         "/api/ai",
         {
-          messages: newMessages,
+          message,
+          aiSessionId,
         },
         {
           headers: {
@@ -64,22 +55,17 @@ export default function AIBox() {
         }
       );
 
-      const newMessagesx: Messages = [...newMessages, response.data];
-
-      setMessages(newMessagesx);
+      addMessage(response.data.message);
+      updateAiSessionId(response.data.aiSessionId);
       setLoading(false);
     } catch (error) {
       console.error(error);
 
-      const newMessagesx: Messages = [
-        ...newMessages,
-        {
-          role: "assistant",
-          content: "Sorry, I am unable to process your request.",
-        },
-      ];
+      addMessage({
+        role: "assistant",
+        content: "I am sorry, I am not able to help you with that.",
+      });
 
-      setMessages(newMessagesx);
       setLoading(false);
     }
   };
@@ -160,7 +146,7 @@ export default function AIBox() {
           placeholder="Ask a question"
           className="px-4 py-2 rounded-md w-4/5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => updateMessage(e.target.value)}
         />
         {loading ? (
           <button
