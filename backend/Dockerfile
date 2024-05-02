@@ -1,4 +1,4 @@
-FROM node:lts-alpine AS base
+FROM node:lts-alpine
 
 RUN npm install -g pnpm
 
@@ -12,9 +12,10 @@ WORKDIR /backend
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 RUN pnpm install
+RUN pnpm db:generate
 
 # Copy source code
 COPY . .
 
-CMD ["sh", "startup.sh" ]
+CMD pnpm run dev
 EXPOSE 4000
