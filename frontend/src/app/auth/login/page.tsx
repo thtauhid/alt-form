@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -20,6 +21,8 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,6 +41,7 @@ export default function LoginPage() {
 
         // save token to local storage
         localStorage.setItem("token", data.data.token);
+        router.push("/");
       })
       .catch((error) => {
         console.error(error);

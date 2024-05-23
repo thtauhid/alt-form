@@ -13,13 +13,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(8),
 });
 
-export default function LoginPage() {
+export default function RegistrationPage() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,6 +37,11 @@ export default function LoginPage() {
       .post("/api/auth/user", values)
       .then((response) => {
         console.log(response.data);
+        const data = response.data;
+
+        // save token to local storage
+        localStorage.setItem("token", data.data.token);
+        router.push("/");
       })
       .catch((error) => {
         console.error(error);
