@@ -40,11 +40,10 @@ export default function CreateForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     mutate(values, {
-      onSuccess: (data) => {
+      onSuccess: (data: any) => {
         toast.success("Form created successfully");
-        form.reset();
         router.push(`/form/${data.id}/edit`);
       },
     });
@@ -65,7 +64,13 @@ export default function CreateForm() {
               <FormItem>
                 <FormLabel>Form Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Form Title" {...field} />
+                  <Input
+                    placeholder="Form Title"
+                    {...field}
+                    disabled={
+                      form.formState.isSubmitting || isPending || isSuccess
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,13 +83,24 @@ export default function CreateForm() {
               <FormItem>
                 <FormLabel>Form Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Form Description" {...field} />
+                  <Textarea
+                    placeholder="Form Description"
+                    {...field}
+                    disabled={
+                      form.formState.isSubmitting || isPending || isSuccess
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Create</Button>
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting || isPending || isSuccess}
+          >
+            Create
+          </Button>
         </form>
       </Form>
     </div>
