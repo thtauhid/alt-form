@@ -1,5 +1,5 @@
-import db from "@/utils/db";
-import { GROQ_API_KEY } from "@/constants";
+import db from "../utils/db";
+import { GROQ_API_KEY } from "../constants";
 import { Request, Response } from "express";
 import Groq from "groq-sdk";
 

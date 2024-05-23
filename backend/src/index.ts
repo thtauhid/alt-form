@@ -1,12 +1,12 @@
 import express from "express";
 import morgan from "morgan";
-import { PORT } from "@/constants";
+import { PORT } from "./constants";
 
-import formRouter from "@/routes/formRouter";
-import authRouter from "@/routes/authRouter";
-import aiRouter from "@/routes/aiRouter";
+import formRouter from "./routes/formRouter";
+import authRouter from "./routes/authRouter";
+import aiRouter from "./routes/aiRouter";
 
-import auth from "@/middlewares/auth";
+import auth from "./middlewares/auth";
 
 const app = express();
 

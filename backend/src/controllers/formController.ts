@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import db from "@/utils/db";
+import db from "../utils/db";
 
 export const createForm = async (req: Request, res: Response) => {
   const { title, description } = req.body;
