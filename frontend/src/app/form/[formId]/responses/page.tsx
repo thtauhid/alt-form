@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useGetForm, useGetFormResponses } from "@/hooks";
+import Loading from "@/lib/loading";
 import { BookIcon, PencilIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -12,16 +13,33 @@ interface Props {
 }
 
 export default function Responses(props: Props) {
-  const { data: formData, isLoading } = useGetForm(props.params.formId);
+  const {
+    data: formData,
+    isError,
+    isLoading,
+  } = useGetForm(props.params.formId);
   const { data: responseData } = useGetFormResponses(props.params.formId);
 
-  console.log(responseData);
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isLoading) <Loading />;
+
+  if (isError) {
+    return (
+      <div>
+        <div className="flex justify-center items-center h-[80vh]">
+          <p className="text-4xl text-">Something Went Wrong</p>
+        </div>
+      </div>
+    );
   }
 
   if (!formData) {
-    return <div>Form not found</div>;
+    return (
+      <div>
+        <div className="flex justify-center items-center h-[80vh] flex-col gap-8">
+          <p className="text-4xl text-">Form Not Found</p>
+        </div>
+      </div>
+    );
   }
 
   return (
