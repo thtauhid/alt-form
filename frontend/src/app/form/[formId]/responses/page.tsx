@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useGetForm, useGetFormResponses } from "@/hooks";
-import Loading from "@/lib/loading";
-import { BookIcon, PencilIcon } from "lucide-react";
+import { BookIcon, LoaderCircleIcon, PencilIcon } from "lucide-react";
 import Link from "next/link";
 
 interface Props {
@@ -20,7 +19,13 @@ export default function Responses(props: Props) {
   } = useGetForm(props.params.formId);
   const { data: responseData } = useGetFormResponses(props.params.formId);
 
-  if (isLoading) <Loading />;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoaderCircleIcon size={80} className="animate-spin text-[#3a0ca3]" />
+      </div>
+    );
+  }
 
   if (isError) {
     return (

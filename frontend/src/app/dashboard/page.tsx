@@ -1,13 +1,18 @@
 "use client";
 import { useGetForms } from "@/hooks";
-import Loading from "@/lib/loading";
-import { EllipsisVertical, Plus } from "lucide-react";
+import { EllipsisVertical, LoaderCircleIcon, Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function Dashboard() {
   const { data, isLoading, isError } = useGetForms();
 
-  if (isLoading) <Loading />;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoaderCircleIcon size={80} className="animate-spin text-[#3a0ca3]" />
+      </div>
+    );
+  }
 
   if (isError) {
     return (

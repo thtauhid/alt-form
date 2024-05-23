@@ -1,8 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useGetForm } from "@/hooks";
-import Loading from "@/lib/loading";
-import { BookIcon, MailsIcon } from "lucide-react";
+import { BookIcon, LoaderCircleIcon, MailsIcon } from "lucide-react";
 import Link from "next/link";
 import AddField from "./AddField";
 import CurrentFields from "./CurrentFields";
@@ -16,7 +15,13 @@ interface Props {
 export default function EditForm(props: Props) {
   const { data, isError, isLoading } = useGetForm(props.params.formId);
 
-  if (isLoading) <Loading />;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoaderCircleIcon size={80} className="animate-spin text-[#3a0ca3]" />
+      </div>
+    );
+  }
 
   if (isError) {
     return (
