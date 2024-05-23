@@ -41,7 +41,7 @@ export default function LoginPage() {
 
         // save token to local storage
         localStorage.setItem("token", data.data.token);
-        router.push("/");
+        router.push("/dashboard");
       })
       .catch((error) => {
         console.error(error);
