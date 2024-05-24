@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import { useMessageStore } from "../store/messageStore";
+import { useMessageStore } from "@/store/messageStore";
 
 export default function AIBox() {
   const [isOpen, setIsOpen] = useState(false);

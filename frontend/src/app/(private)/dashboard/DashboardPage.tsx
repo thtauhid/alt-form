@@ -3,7 +3,7 @@ import { useGetForms } from "@/hooks";
 import { EllipsisVertical, LoaderCircleIcon, Plus } from "lucide-react";
 import Link from "next/link";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const { data, isLoading, isError } = useGetForms();
 
   if (isLoading) {
@@ -24,7 +24,7 @@ export default function Dashboard() {
     );
   }
 
-  if (!data) {
+  if (!data || data.length === 0) {
     return (
       <div>
         <div className="flex justify-center items-center h-[80vh] flex-col gap-8">
