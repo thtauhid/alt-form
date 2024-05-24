@@ -23,7 +23,7 @@ export default function RootLayout({
           <main className="bg-[#caf0f8]/60 px-40 py-32 min-h-[100vh]">
             {children}
           </main>
-          <Toaster />
+          <Toaster position="bottom-left" />
           <AIBox />
         </Providers>
       </body>
